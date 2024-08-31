@@ -3,6 +3,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
 import requests
 import uuid
 import os
+from datetime import datetime
 
 # Установите токен доступа
 TOKEN = '7300877680:AAFMDFouNAdvJXD3n8akwUBqyPUQ_Xz2iaQ'
@@ -41,6 +42,15 @@ async def handle_amount(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         order_id = str(uuid.uuid4())  # Генерируем уникальный order_id
         payment_url = f"{PAYMENT_SERVER_URL}?amount={amount}&order_id={order_id}"
+        
+        # Формируем сообщение с информацией о заказе
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        order_message = f"Создан заказ номер {order_id} на сумму {amount} рублей в {now}."
+        
+        # Отправляем сообщение о создании заказа
+        await update.message.reply_text(order_message)
+        
+        # Создаем и отправляем кнопку с ссылкой на оплату
         keyboard = [[InlineKeyboardButton("Перейти к оплате", url=payment_url)]]
         reply_markup = InlineKeyboardMarkup(keyboard)
 
