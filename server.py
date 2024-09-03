@@ -40,7 +40,7 @@ def payment():
     }
 
     payment_data = {
-        'project_id': '01918faf-a5ab-7af7-a3fe-b0478bda0038',  # Ваш реальный project_id
+        'project_id': '0191b7b9-d3ef-7c2b-93af-1e49c2389b7e',  # Ваш реальный project_id
         'amount': amount,
         'currency': 'RUB',
         'metadata': metadata
