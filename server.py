@@ -3,9 +3,13 @@ import requests
 
 app = Flask(__name__)
 
-# Установите токен вашего бота
+# Установите токен вашего Telegram-бота
 TELEGRAM_TOKEN = '7300877680:AAFMDFouNAdvJXD3n8akwUBqyPUQ_Xz2iaQ'
 
+# Данные проекта платежной системы
+PROJECT_ID = '0193781c-f938-7a6c-bf49-fbc3e4f7c144'
+WEBHOOK_SECRET = 'N9c46nICQRZFA0LnJI9AT71KtNniA5CHh2XA'
+X_AUTH_KEY = 'MgvW8WkUwOBTyXVAt6fg8qN7zfNEn579gcWsFnzpJ0rntrTw'  # Замените, если отличается
 
 def send_telegram_notification(order_id, amount, status):
     """Отправка уведомления в Telegram о статусе платежа всем пользователям."""
@@ -37,17 +41,18 @@ def payment():
 
     metadata = {"order_id": order_id}
     payment_data = {
-        'project_id': '0193781c-f938-7a6c-bf49-fbc3e4f7c144',
+        'project_id': PROJECT_ID,
         'amount': amount,
         'currency': 'RUB',
         'metadata': metadata,
-        'webhook_url': 'http://84.201.180.71/payment-status'  # Изменено на публичный IP
+        'webhook_url': f'http://84.201.180.71/payment-status',
+        'secret': WEBHOOK_SECRET
     }
 
     headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'X-Auth-Key': 'MgvW8WkUwOBTyXVAt6fg8qN7zfNEn579gcWsFnzpJ0rntrTw'
+        'X-Auth-Key': X_AUTH_KEY
     }
 
     response = requests.post('https://rub.change.pro/api/payments', json=payment_data, headers=headers)
@@ -79,4 +84,4 @@ def payment_status():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)  # Для работы через Gunicorn
+    app.run(host='0.0.0.0', port=5000)
