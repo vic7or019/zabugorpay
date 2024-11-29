@@ -45,6 +45,7 @@ def payment():
         'amount': amount,
         'currency': 'RUB',
         'metadata': metadata,
+        # В webhook URL порт 5000 убран
         'webhook_url': f'http://84.201.180.71/payment-status',
         'secret': WEBHOOK_SECRET
     }
@@ -84,4 +85,5 @@ def payment_status():
 
 
 if __name__ == '__main__':
+    # Порт 5000 остаётся для работы Gunicorn
     app.run(host='0.0.0.0', port=5000)
