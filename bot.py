@@ -5,23 +5,19 @@ import uuid
 import os
 from datetime import datetime
 
-# Установите токен доступа
 TOKEN = '7300877680:AAFMDFouNAdvJXD3n8akwUBqyPUQ_Xz2iaQ'
-PAYMENT_SERVER_URL = 'http://90.156.150.15:5000/payment'  # Новый адрес сервера
+PAYMENT_SERVER_URL = 'http://90.156.150.15:5000/payment'
 
-# Путь к файлу chat_ids.txt
 CHAT_IDS_FILE = "chat_ids.txt"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
 
-    # Проверяем, существует ли файл chat_ids.txt и создаем его, если нет
     if not os.path.exists(CHAT_IDS_FILE):
         with open(CHAT_IDS_FILE, "w") as file:
-            pass  # создаем пустой файл
+            pass
 
     try:
-        # Проверяем, есть ли chat_id уже в файле
         with open(CHAT_IDS_FILE, "r") as file:
             chat_ids = file.readlines()
 
@@ -37,20 +33,15 @@ async def handle_amount(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         amount = float(update.message.text)
         chat_id = update.message.chat_id
-        user_payment_amount = {}  # Это локальная переменная, используется для хранения суммы
-        user_payment_amount[chat_id] = amount
 
-        order_id = str(uuid.uuid4())  # Генерируем уникальный order_id
+        order_id = str(uuid.uuid4())
         payment_url = f"{PAYMENT_SERVER_URL}?amount={amount}&order_id={order_id}"
-        
-        # Формируем сообщение с информацией о заказе
+
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         order_message = f"Создан заказ номер {order_id} на сумму {amount} рублей в {now}."
-        
-        # Отправляем сообщение о создании заказа
+
         await update.message.reply_text(order_message)
-        
-        # Создаем и отправляем кнопку с ссылкой на оплату
+
         keyboard = [[InlineKeyboardButton("Перейти к оплате", url=payment_url)]]
         reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -62,13 +53,8 @@ async def handle_amount(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     application = ApplicationBuilder().token(TOKEN).build()
-
-    # Обработчик команды /start
     application.add_handler(CommandHandler('start', start))
-
-    # Обработчик сообщений для ввода суммы
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_amount))
-
     application.run_polling()
 
 if __name__ == '__main__':
