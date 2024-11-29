@@ -1,9 +1,7 @@
 from flask import Flask, redirect, request, jsonify
 import requests
-from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
 
 # Установите токен вашего бота
 TELEGRAM_TOKEN = '7300877680:AAFMDFouNAdvJXD3n8akwUBqyPUQ_Xz2iaQ'
