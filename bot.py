@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 
 TOKEN = '7300877680:AAFMDFouNAdvJXD3n8akwUBqyPUQ_Xz2iaQ'
-PAYMENT_SERVER_URL = 'http://90.156.150.15:5000/payment'
+PAYMENT_SERVER_URL = 'http://90.156.150.15:5001/payment'
 
 CHAT_IDS_FILE = "chat_ids.txt"
 
