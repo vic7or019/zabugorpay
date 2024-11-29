@@ -6,6 +6,7 @@ app = Flask(__name__)
 # Установите токен вашего бота
 TELEGRAM_TOKEN = '7300877680:AAFMDFouNAdvJXD3n8akwUBqyPUQ_Xz2iaQ'
 
+
 def send_telegram_notification(order_id, amount, status):
     """Отправка уведомления в Telegram о статусе платежа всем пользователям."""
     message = f"Платеж по заказу {order_id} на сумму {amount} рублей. Статус: {status}"
@@ -23,9 +24,11 @@ def send_telegram_notification(order_id, amount, status):
     except FileNotFoundError:
         print("Файл chat_ids.txt не найден.")
 
+
 @app.route('/')
 def home():
     return 'Сервер работает!'
+
 
 @app.route('/payment')
 def payment():
@@ -38,7 +41,7 @@ def payment():
         'amount': amount,
         'currency': 'RUB',
         'metadata': metadata,
-        'webhook_url': 'http://90.156.150.15/payment-status'
+        'webhook_url': 'http://84.201.180.71/payment-status'  # Изменено на публичный IP
     }
 
     headers = {
@@ -57,6 +60,7 @@ def payment():
         print(f"Ошибка создания платежа: {error_message}")
         return f"Ошибка при создании платежа: {error_message}", 400
 
+
 @app.route('/payment-status', methods=['POST'])
 def payment_status():
     data = request.json
@@ -73,5 +77,6 @@ def payment_status():
 
     return jsonify({'status': 'success'})
 
+
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000)
+    app.run(host='0.0.0.0', port=5000)  # Для работы через Gunicorn
