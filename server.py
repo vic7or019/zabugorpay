@@ -40,7 +40,7 @@ def payment():
         'amount': amount,
         'currency': 'RUB',
         'metadata': metadata,
-        'webhook_url': 'http://90.156.150.15:5001/payment-status'
+        'webhook_url': 'http://90.156.150.15/payment-status'
     }
 
     headers = {
@@ -76,4 +76,4 @@ def payment_status():
     return jsonify({'status': 'success'})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)  # Порт изменён на 5001
+    app.run(host='0.0.0.0', port=80)  # Порт изменён на 80
