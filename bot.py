@@ -6,8 +6,7 @@ import os
 from datetime import datetime
 
 TOKEN = '7300877680:AAFMDFouNAdvJXD3n8akwUBqyPUQ_Xz2iaQ'
-PAYMENT_SERVER_URL = 'http://84.201.180.71:5000/payment'  # Изменено на публичный IP с портом Flask-сервера
-
+PAYMENT_SERVER_URL = 'http://84.201.180.71:5000/payment'
 CHAT_IDS_FILE = "chat_ids.txt"
 
 
@@ -34,8 +33,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_amount(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         amount = float(update.message.text)
-        chat_id = update.message.chat_id
-
         order_id = str(uuid.uuid4())
         payment_url = f"{PAYMENT_SERVER_URL}?amount={amount}&order_id={order_id}"
 
