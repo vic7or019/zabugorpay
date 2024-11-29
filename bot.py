@@ -7,7 +7,7 @@ from datetime import datetime
 
 # Установите токен доступа
 TOKEN = '7300877680:AAFMDFouNAdvJXD3n8akwUBqyPUQ_Xz2iaQ'
-PAYMENT_SERVER_URL = 'http://51.250.47.64/payment'
+PAYMENT_SERVER_URL = 'http://90.156.150.15:5000/payment'  # Новый адрес сервера
 
 # Путь к файлу chat_ids.txt
 CHAT_IDS_FILE = "chat_ids.txt"
