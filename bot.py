@@ -6,9 +6,10 @@ import os
 from datetime import datetime
 
 TOKEN = '7300877680:AAFMDFouNAdvJXD3n8akwUBqyPUQ_Xz2iaQ'
-PAYMENT_SERVER_URL = 'http://90.156.150.15/payment'
+PAYMENT_SERVER_URL = 'http://84.201.180.71:5000/payment'  # Изменено на публичный IP с портом Flask-сервера
 
 CHAT_IDS_FILE = "chat_ids.txt"
+
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
@@ -28,6 +29,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text('Введите сумму, которую хотите оплатить:')
     except Exception as e:
         await update.message.reply_text(f'Произошла ошибка: {str(e)}')
+
 
 async def handle_amount(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
@@ -51,11 +53,13 @@ async def handle_amount(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f'Произошла ошибка: {str(e)}')
 
+
 def main():
     application = ApplicationBuilder().token(TOKEN).build()
     application.add_handler(CommandHandler('start', start))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_amount))
     application.run_polling()
+
 
 if __name__ == '__main__':
     main()
